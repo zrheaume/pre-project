@@ -4,10 +4,12 @@
   "description": "Project 2 Starter",
   "main": "server.js",
   "scripts": {
+    "dev": "npm run test && npm start",
     "start": "node server.js",
     "lint": "eslint **/*.js --quiet",
     "fix": "eslint --fix .",
-    "test": "npm run lint && NODE_ENV=test mocha -u tdd --reporter spec --exit"
+    "test": "npm run lint && NODE_ENV=test mocha -u tdd --reporter spec --exit",
+    "watch": "nodemon -e js --exec npm run dev"
   },
   "license": "ISC",
   "dependencies": {
