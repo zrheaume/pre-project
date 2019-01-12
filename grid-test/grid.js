@@ -13,8 +13,8 @@ const canvas = {
 };
 
 const grid = {
-  columns: columns,
-  rows: rows
+  columnsAmount: columns,
+  rowsAmount: rows
 };
 
 
@@ -27,15 +27,15 @@ function setup() {
 function draw() {
   background(51);
 
-  for(let i = 0; i < grid.columns; i++) {
-    for(let n = 0; n < grid.rows; n++) {
-      let xMultiplier = (canvas.width - 5) / grid.columns;
-      let yMultiplier = (canvas.height - 5) / grid.rows;
-      tile.x = i * xMultiplier + 2;
-      tile.y = n * yMultiplier + 2;
+  for(let i = 0; i < grid.columnsAmount; i++) {
+    for(let n = 0; n < grid.rowsAmount; n++) {
+      let tileWidth = (canvas.width - 5) / grid.columnsAmount;
+      let tileHeight = (canvas.height - 5) / grid.rowsAmount;
+      tile.x = i * tileWidth + 2;
+      tile.y = n * tileHeight + 2;
       stroke(0);
       fill(255);
-      rect(tile.x, tile.y, xMultiplier, yMultiplier);
+      rect(tile.x, tile.y, tileWidth, tileHeight);
     }
   }
 }
@@ -43,12 +43,12 @@ function draw() {
 $(function() {
 
   $("#column-select").on("change", function() {
-    grid.columns = $("#column-select").val();
+    grid.columnsAmount = $("#column-select").val();
     // draw();
   });
 
   $("#row-select").on("change", function() {
-    grid.rows = $("#row-select").val();
+    grid.rowsAmount = $("#row-select").val();
     // draw();
   });
 });
