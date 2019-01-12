@@ -1,4 +1,4 @@
-var db = require("../models");
+// var db = require("../models");
 var board = require("../app/resources/board");
 var game = require("../app/resources/game");
 
