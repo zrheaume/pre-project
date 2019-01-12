@@ -8,8 +8,8 @@ const tile = {
 };
 
 const canvas = {
-  height: 605,
-  width: 605
+  width: 605,
+  height: 605
 };
 
 const grid = {
@@ -21,14 +21,14 @@ const grid = {
 
 function setup() {
   createCanvas(canvas.width, canvas.height);
-  
+
 }
 
 function draw() {
   background(51);
 
-  for(let i = 0; i < grid.columns; i++) {
-    for(let n = 0; n < grid.rows; n++) {
+  for (let i = 0; i < grid.columns; i++) {
+    for (let n = 0; n < grid.rows; n++) {
       tile.x = i * 30 + 2;
       tile.y = n * 30 + 2;
       stroke(0);
@@ -38,15 +38,19 @@ function draw() {
   }
 }
 
-$(function() {
+$(function () {
 
-  $("#column-select").on("change", function() {
+  $("#column-select").on("change", function () {
     grid.columns = $("#column-select").val();
     // draw();
   });
 
-  $("#row-select").on("change", function() {
+  $("#row-select").on("change", function () {
     grid.rows = $("#row-select").val();
     // draw();
   });
+});
+
+$.get("/api/board", function(data){
+  if(data){console.log("Data loaded")};
 });
