@@ -1,7 +1,8 @@
 var db = require("../models");
-var board = require("../app/board");
+var board = require("../app/resources/board");
+var game = require("../app/resources/game");
 
-    module.exports = function (app) {
+module.exports = function (app) {
     // Get all examples
     // app.get("/api/examples", function(req, res) {
     //   db.Example.findAll({}).then(function(dbExamples) {
@@ -26,7 +27,12 @@ var board = require("../app/board");
     // });
 
 
-    app.get("/api/board/testGen", function (req, res) {
-      res.json(board.gen());
+    app.get("/api/testGen/board", function (req, res) {
+        res.json(board.gen());
     });
-  };
+    app.get("/api/testGen/game", function (req, res) {
+        var options;
+        options.gameID = req.query.gameID;
+        res.json(game.createNew(options));
+    });
+};

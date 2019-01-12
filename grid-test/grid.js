@@ -24,19 +24,6 @@ function setup() {
 
 }
 
-function draw() {
-  background(51);
-
-  for (let i = 0; i < grid.columns; i++) {
-    for (let n = 0; n < grid.rows; n++) {
-      tile.x = i * 30 + 2;
-      tile.y = n * 30 + 2;
-      stroke(0);
-      fill(255);
-      rect(tile.x, tile.y, 30, 30);
-    }
-  }
-}
 
 $(function () {
 
@@ -49,6 +36,7 @@ $(function () {
     grid.rows = $("#row-select").val();
     // draw();
   });
+  
 });
 
 $.get("/api/board", function(data){

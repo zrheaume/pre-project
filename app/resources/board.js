@@ -6,22 +6,22 @@ const BONUSLIM = 3;
 function typeRoll(tile, zone) {
     var roll;
     switch (zone) {
-        case "border":
-            roll = Math.round(Math.random());
+    case "border":
+        roll = Math.round(Math.random());
+        return tile.type = roll;
+    case "inland":
+        roll = Math.round(Math.random());
+        if (roll === 1) {
+            return tile.type = 2;
+        } else {
             return tile.type = roll;
-        case "inland":
-            roll = Math.round(Math.random());
-            if (roll === 1) {
-                return tile.type = 2;
-            } else {
-                return tile.type = roll;
-            }
-        case "bonus":
-            roll = Math.floor(Math.random() * 3);
-            return tile.bonusType = roll;
-        default:
-            roll = Math.round(Math.random());
-            return roll;
+        }
+    case "bonus":
+        roll = Math.floor(Math.random() * 3);
+        return tile.bonusType = roll;
+    default:
+        roll = Math.round(Math.random());
+        return roll;
     }
 }
 
@@ -57,7 +57,7 @@ class Tile {
             } else if (this.hasBonus === 1) {
                 // Tile has bonus
                 this.bonusType = typeRoll(this, "bonus");
-                board.bonus ++;
+                board.bonus++;
             } else {
                 console.log("An error occured in board assignment");
             }
@@ -80,22 +80,22 @@ class Board {
             this.generate();
         }
     }
-    generate () { 
+    generate() {
         for (var row = 0; row < board.yLim; row++) {
-        let thisRow = [];
-        for (var col = 0; col < board.xLim; col++) {
-            thisRow.push(new Tile([col, row], board));
+            let thisRow = [];
+            for (var col = 0; col < board.xLim; col++) {
+                thisRow.push(new Tile([col, row], board));
+            }
+            this.tiles.push(thisRow);
         }
-        this.tiles.push(thisRow);
     }
-}
 }
 
 
 module.exports = {
-    gen: function () {
+    createNew: function () {
         return new Board(null);
     },
-    Board : Board,
-    Tile : Tile
+    Board: Board,
+    Tile: Tile
 };
