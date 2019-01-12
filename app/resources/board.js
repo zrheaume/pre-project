@@ -1,7 +1,9 @@
-const BORDER = 2;
-const XLIM = 8;
-const YLIM = 8;
-const BONUSLIM = 3;
+const defaultBoardOptions = {
+    xLim: 16,
+    yLim: 16,
+    border: 3,
+    bonusLim: 3
+};
 
 function typeRoll(tile, zone) {
     var roll;
@@ -31,60 +33,86 @@ class Tile {
         // 0 - "plain"
         // 1 - "ocean"
         // 2 - "mountain"
+        // 9 - "spawn"
         this.x = coords[0];
         this.y = coords[1];
-        if (this.x < BORDER || this.x >= board.xLim - BORDER) {
-            if (this.y < BORDER || this.y >= board.yLim - BORDER) {
-                typeRoll(this, "border");
+        if( this.x === board.reserved[0].x && this.y === board.reserved[0].y || this.x === board.reserved[1].x && this.y === board.reserved[1].y ){
+            this.type = 9;
+            this.hasBonus = false;
+            this.bonusType = null;
+        }else {
+            if (this.x < defaultBoardOptions.border || this.x >= board.xLim - defaultBoardOptions.border) {
+                if (this.y < defaultBoardOptions.border || this.y >= board.yLim - defaultBoardOptions.border) {
+                    typeRoll(this, "border");
+                } else {
+                    this.type = 0;
+                }
             } else {
                 this.type = 0;
             }
-        } else {
-            this.type = 0;
-        }
-        if (this.x >= BORDER && this.x < board.xLim - BORDER) {
-            if (this.y >= BORDER && this.y < board.yLim - BORDER) {
-                typeRoll(this, "inland");
+            if (this.x >= defaultBoardOptions.border && this.x < board.xLim - defaultBoardOptions.border) {
+                if (this.y >= defaultBoardOptions.border && this.y < board.yLim - defaultBoardOptions.border) {
+                    typeRoll(this, "inland");
+                }
             }
-        }
-        if (!this.type) {
-            this.type = 0;
-        }
-        if (this.type === 0 && board.bonus < BONUSLIM) {
-            this.hasBonus = typeRoll();
-            if (this.hasBonus === 0) {
-                // Tile has no bonus
-            } else if (this.hasBonus === 1) {
-                // Tile has bonus
-                this.bonusType = typeRoll(this, "bonus");
-                board.bonus++;
-            } else {
-                console.log("An error occured in board assignment");
+            if (!this.type) {
+                this.type = 0;
+            }
+            this.hasBonus = null;
+            if (this.type === 0 && board.bonus < defaultBoardOptions.bonusLim) {
+                this.hasBonus = typeRoll();
+                if (this.hasBonus === 0) {
+                    this.hasBonus = false;
+                } else if (this.hasBonus === 1) {
+                    this.hasBonus = true;
+                    this.bonusType = typeRoll(this, "bonus");
+                    board.bonus++;
+                } else {
+                    console.log("An error occured in board assignment");
+                }
             }
         }
         this.owner = null;
-        this.fortification = 0;
+        if (this.type === 9){
+            this.fortification = 6;
+        } else {
+            this.fortification = 0;
+        }
     }
 
 }
 
 class Board {
-    constructor(tiles) {
-        this.xLim = XLIM;
-        this.yLim = YLIM;
+    constructor(options) {
+        if (options) {
+            //
+        }
+        this.xLim = defaultBoardOptions.xLim;
+        this.yLim = defaultBoardOptions.yLim;
+        this.border = defaultBoardOptions.border;
+        this.bonusLim = defaultBoardOptions.bonusLim;
         this.bonus = 0;
-        if (tiles) {
-            this.tiles = tiles;
-        } else {
-            this.tiles = [];
-            this.generate();
+        this.reserved = [];
+        this.tiles = [];
+        this.spawnPlayers(2);
+        this.generate();
+    }
+    spawnPlayers(q) {
+        for (var c = 0; c < q; c++) {
+            let spawnX = Math.floor(Math.random() * (this.xLim / q)) + ((this.xLim / q) * c);
+            let spawnY = Math.floor(Math.random() * (this.yLim));
+            this.reserved.push({
+                reservedFor : "spawn",
+                x : spawnX,
+                y : spawnY
+            });
         }
     }
     generate() {
-        for (var row = 0; row < board.yLim; row++) {
+        for (var row = 0; row < this.yLim; row++) {
             let thisRow = [];
-            for (var col = 0; col < board.xLim; col++) {
-                thisRow.push(new Tile([col, row], board));
+            for (var col = 0; col < this.xLim; col++) {
+                thisRow.push(new Tile([col, row], this));
             }
             this.tiles.push(thisRow);
         }
@@ -93,8 +121,8 @@ class Board {
 
 
 module.exports = {
-    createNew: function () {
-        return new Board(null);
+    getFor: function (game) {
+        return game.state.board = new Board();
     },
     Board: Board,
     Tile: Tile

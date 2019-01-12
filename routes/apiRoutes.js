@@ -31,8 +31,6 @@ module.exports = function (app) {
         res.json(board.gen());
     });
     app.get("/api/testGen/game", function (req, res) {
-        var options;
-        options.gameID = req.query.gameID;
-        res.json(game.createNew(options));
+        res.json(game.createNew());
     });
 };
