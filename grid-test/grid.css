@@ -1,0 +1,14 @@
+canvas {
+    float: left;
+    margin: 0px 300px;
+}
+
+#grid-properties {
+    float: left;
+    border: solid black 3px;
+    padding: 20px;
+}
+
+#grid-properties-title {
+    background-color: darkorange;
+}
