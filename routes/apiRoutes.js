@@ -30,6 +30,7 @@ module.exports = function (app) {
     });
     app.get("/api/testGen/game", function (req, res) {
         res.json(game.createNew());
+    });
 
     app.get("/api/examples", function (req, res) {
         db.Example.findAll({}).then(function (dbExamples) {
