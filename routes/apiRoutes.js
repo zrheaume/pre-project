@@ -1,26 +1,33 @@
-var db = require("../models");
+const db = require("../models");
+const Game = require('../models/domain/gamestate')
 
 module.exports = function (app) {
-    // Get all examples
-    app.get("/api/examples", function (req, res) {
-        db.Example.findAll({}).then(function (dbExamples) {
-            res.json(dbExamples);
-        });
+    // Create a new game
+    app.post("/api/game/create", async function (req, res) {
+        const game = new Game(req.body);
+        board = await Game.createBoard(game);
+
+        res.json(board);
     });
 
-    // Create a new example
-    app.post("/api/examples", function (req, res) {
-        db.Example.create(req.body).then(function (dbExample) {
-            res.json(dbExample);
-        });
+    // Retrieve Game
+    app.get("/api/game/retrieve/:id", async function (req, res) {
+        board = await Game.retrieveBoard(req.params.id);
+
+        res.json(board);
     });
 
-    // Delete an example by id
-    app.delete("/api/examples/:id", function (req, res) {
-        db.Example.destroy({ where: { id: req.params.id } }).then(function (
-            dbExample
-        ) {
-            res.json(dbExample);
-        });
+    // Update Game
+    app.put("/api/game/update/:id", async function (req, res) {
+        board = await Game.updateBoard(req.params.id, req.body);
+
+        res.json(board);
+    });
+
+    // Delete Game
+    app.delete("/api/game/delete/:id", async function (req, res) {
+        board = await Game.deleteBoard(req.params.id);
+
+        res.json(board);
     });
 };
