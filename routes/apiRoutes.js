@@ -1,5 +1,5 @@
-const db = require("../models");
-const Game = require('../models/domain/gamestate')
+// const db = require("../models");
+const Game = require("../models/domain/gamestate");
 
 module.exports = function (app) {
     // Create a new game
