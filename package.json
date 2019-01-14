@@ -1,6 +1,9 @@
 {
   "name": "node-handlebars-boilerplate",
   "version": "1.0.0",
+  "engines": {
+    "node": "10.3.0"
+  },
   "description": "Project 2 Starter",
   "main": "server.js",
   "scripts": {
@@ -14,13 +17,15 @@
   },
   "license": "ISC",
   "dependencies": {
+    "bluebird": "^3.5.3",
     "dotenv": "^6.0.0",
     "express": "^4.16.3",
     "express-handlebars": "^3.0.0",
     "jquery": "^3.3.1",
     "mysql2": "^1.5.3",
     "redis": "^2.8.0",
-    "sequelize": "^4.38.0"
+    "sequelize": "^4.38.0",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "chai": "^4.1.2",
